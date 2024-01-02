@@ -1,0 +1,78 @@
+POST http://127.0.0.1:8000/api/v1/signup/
+Content-Type: application/json
+
+{"username": "test_user", "password": "test_password", "email": "test@gmail.com"}
+
+###
+
+POST http://127.0.0.1:8000/api/v1/login/
+Content-Type: application/json
+
+{"username": "test_user", "password": "test_password"}
+
+###
+
+GET http://127.0.0.1:8000/api/v1/test_token/
+Content-Type: application/json
+
+{}
+
+###
+
+GET http://127.0.0.1:8000/api/v1/tasks/
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+{}
+
+###
+
+GET http://127.0.0.1:8000/api/v1/task/1/
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+{}
+
+###
+
+GET http://127.0.0.1:8000/api/v1/tasks/?created_at=2024-01-02T12:25:44.562469Z
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+###
+
+GET http://127.0.0.1:8000/api/v1/tasks/?content_contains=tarea
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+###
+
+POST http://127.0.0.1:8000/api/v1/tasks/
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+{"task_name": "Tarea matutina", "detail": "Tarea 1", "complete": 0}
+
+###
+
+PUT http://127.0.0.1:8000/api/v1/task/1/
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+{"task_name": "Tarea matutina", "detail": "Tarea 2", "complete": true}
+
+###
+
+PATCH  http://127.0.0.1:8000/api/v1/task/1/
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+{"complete": false}
+
+###
+
+DELETE  http://127.0.0.1:8000/api/v1/task/1/
+Content-Type: application/json
+Authorization: Token 53350752235e1b25cd46d8cb37c323051c09969d
+
+###

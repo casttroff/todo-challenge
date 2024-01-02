@@ -1,37 +1,74 @@
-# Invera ToDo-List Challenge (Python/Django Jr-SSr)
+## Instrucciones de Uso
 
-El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
+1. **Instalación de Docker:**
+   - Asegúrate de tener Docker instalado.
 
-## Qué queremos que hagas:
+2. **Ejecución de la Aplicación:**
+   - Abre una terminal de linea de comandos y en el directorio raíz del proyecto ejecuta el siguiente comando:
+     ```bash
+     docker-compose up
+     ```
+   - Abre una nueva terminal de linea de comandos y ejecuta el siguiente comando:
+     ```bash
+     docker exec -it container-djangoapi python manage.py migrate
+     ```
 
-- El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.
-- La entrega del resultado será en un nuevo fork de este repo y deberás hacer una pequeña demo del funcionamiento y desarrollo del proyecto ante un super comité de las más grandes mentes maestras de Invera, o a un par de devs, lo que sea más fácil de conseguir.
-- Podes contactarnos en caso que tengas alguna consulta.
+3. **Ejecución de Pruebas:**
+   - Ejecuta las pruebas utilizando el siguiente comando:
+     ```bash
+     docker exec -it container-djangoapi pytest
+     ```
+   - Las pruebas incluyen casos para la creación de usuarios, inicio de sesión, generación y validación de tokens, así como operaciones CRUD en las tareas.
+   - Consulta los archivos `tests/test_views.py` y `tests/test_models.py` para obtener detalles adicionales sobre las pruebas implementadas.
 
-## Objetivos:
+4. **Endpoints Habilitados:**
 
-El usuario de la aplicación tiene que ser capaz de:
+   - [POST] [http://127.0.0.1:8000/api/v1/signup/](http://127.0.0.1:8000/api/v1/signup/)
+   - [POST] [http://127.0.0.1:8000/api/v1/login/](http://127.0.0.1:8000/api/v1/login/)
+   - [GET] [http://127.0.0.1:8000/api/v1/test_token/](http://127.0.0.1:8000/api/v1/test_token/)
+   - [GET, POST] [http://127.0.0.1:8000/api/v1/tasks](http://127.0.0.1:8000/api/v1/tasks)
+   - [GET] [http://127.0.0.1:8000/api/v1/tasks/?created_at={date}](http://127.0.0.1:8000/api/v1/tasks/?created_at={date})
+   - [GET] [http://127.0.0.1:8000/api/v1/tasks/?content_contains={content_in_detail}](http://127.0.0.1:8000/api/v1/tasks/?content_contains={content_in_detail})
+   - [GET, PUT, PATCH, DELETE] [http://127.0.0.1:8000/api/v1/task/{id}/](http://127.0.0.1:8000/api/v1/task/{id}/)
 
-- Autenticarse
-- Crear una tarea
-- Eliminar una tarea
-- Marcar tareas como completadas
-- Poder ver una lista de todas las tareas existentes
-- Filtrar/buscar tareas por fecha de creación y/o por el contenido de la misma
+5. **Pasos para Realizar un Circuito de CRUD con Autenticación:**
+   -   Realizar signup.
+   -   Realizar login para obtener token.
+   -   Probar el token generado haciendo una petición GET a /test_token agregando en 'Authorization' el token del usuario.
+   -   Ya puedes realizar todas las operaciones CRUD con este token.
 
-## Qué evaluamos:
+6. **Más ejemplos de Pruebas en `tests.rest`:**
 
-- Desarrollo utilizando Python, Django. No es necesario crear un Front-End, pero sí es necesario tener una API que permita cumplir con los objetivos de arriba.
-- Uso de librerías y paquetes estandares que reduzcan la cantidad de código propio añadido.
-- Calidad y arquitectura de código. Facilidad de lectura y mantenimiento del código. Estándares seguidos.
-- [Bonus] Manejo de logs.
-- [Bonus] Creación de tests (unitarias y de integración)
-- [Bonus] Unificar la solución propuesta en una imagen de Docker por repositorio para poder ser ejecutada en cualquier ambiente (si aplica para full stack).
+   - Puedes utilizar los siguientes ejemplos para probar los endpoints. Copia y pega cada ejemplo en tu herramienta de pruebas, como Postman o curl.
 
-## Requerimientos de entrega:
+   ```http
+   POST http://127.0.0.1:8000/api/v1/signup/
+   Content-Type: application/json
 
-- Hacer un fork del proyecto y pushearlo en github. Puede ser privado.
-- La solución debe correr correctamente.
-- El Readme debe contener todas las instrucciones para poder levantar la aplicación, en caso de ser necesario, y explicar cómo se usa.
-- Disponibilidad para realizar una pequeña demo del proyecto al finalizar el challenge.
-- Tiempo para la entrega: Aproximadamente 7 días.
+   {"username": "test_user", "password": "test_password", "email": "test@gmail.com"}
+
+
+   POST http://127.0.0.1:8000/api/v1/login/
+   Content-Type: application/json
+
+   {"username": "test_user", "password": "test_password"}
+
+
+   POST http://127.0.0.1:8000/api/v1/tasks/
+   Content-Type: application/json
+   Authorization: Token b294fbd5ecc0d5311907b0648638c38300f58af9
+
+   {"task_name": "Tarea matutina", "detail": "Tarea 1", "complete": 0}
+
+
+   GET http://127.0.0.1:8000/api/v1/tasks/
+   Content-Type: application/json
+   Authorization: Token ...
+
+
+   GET http://127.0.0.1:8000/api/v1/task/1/
+   Content-Type: application/json
+   Authorization: Token ...
+
+5. **Consideraciones:**
+   - Cada usuario tiene acceso a ver todas las tareas pero solo puede modificar o eliminar su propia tarea.

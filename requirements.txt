@@ -1,0 +1,6 @@
+coreapi
+pytest
+pytest-django
+django
+djangorestframework
+django-environ
